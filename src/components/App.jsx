@@ -21,23 +21,85 @@ function App() {
         },
     ]);
 
+    const [todoInput, setTodoInput] = useState('');
+    const [idForTodo, setIdForTodo] = useState(4);
+    function addTodo(event) {
+        event.preventDefault();
+
+        if (!todoInput.trim().length) {
+            return;
+        }
+
+        setTodos([
+            ...todos,
+            {
+                // id: 4,
+                //set dynamic id
+                // id: todos.length + 1,
+                id: idForTodo,
+                title: todoInput,
+                isComplete: false,
+            },
+        ]);
+
+        setTodoInput('');
+        setIdForTodo((prevIdForTodo) => prevIdForTodo + 1);
+    }
+
+    function handleInput(event) {
+        setTodoInput(event.target.value);
+    }
+
+    function deleteTodo(id) {
+        console.log('delete todo with id: ' + id);
+
+        //delete todo with id
+        setTodos(todos.filter((todo) => todo.id !== id));
+    }
+
+    function completeTodo(id) {
+        console.log('complete todo with id: ' + id);
+
+        //complete todo with id
+        setTodos(
+            todos.map((todo) => {
+                if (todo.id === id) {
+                    todo.isComplete = !todo.isComplete;
+                }
+                return todo;
+            }),
+        );
+    }
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
                 <h2>Todo App</h2>
-                <form action="#">
-                    <input type="text" className="todo-input" placeholder="What do you need to do?" />
+                <form action="#" onSubmit={addTodo}>
+                    <input
+                        type="text"
+                        onChange={handleInput}
+                        value={todoInput}
+                        className="todo-input"
+                        placeholder="What do you need to do?"
+                    />
                 </form>
 
                 <ul className="todo-list">
                     {todos.map((todo, index) => (
-                        <li className="todo-item-container">
+                        <li key={todo.id} className="todo-item-container">
                             <div className="todo-item">
-                                <input type="checkbox" />
-                                <span className="todo-item-label">{todo.title}</span>
+                                <input
+                                    checked={todo.isComplete}
+                                    type="checkbox"
+                                    onChange={() => completeTodo(todo.id)}
+                                />
+                                <span className={`todo-item-label ${todo.isComplete && 'line-through'}`}>
+                                    {todo.title}
+                                </span>
                                 {/* <input type="text" className="todo-item-input" value="Finish React Series" /> */}
                             </div>
-                            <button className="x-button">
+                            <button onClick={() => deleteTodo(todo.id)} className="x-button">
                                 <svg className="x-button-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path
                                         strokeLinecap="round"
