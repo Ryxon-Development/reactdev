@@ -136,3 +136,20 @@ h2 {
     padding-top: 16px;
     border-top: 1px solid lightgray;
 }
+.no-todos-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    color: #6B7280;
+    margin-top: 22px;
+    padding-top: 16px;
+}
+.no-todos-container > * {
+    margin-top: 25px; /* Adjust the value to control the spacing */
+}
+.todo-item input[type="checkbox"] {
+    /* Make the checkbox bigger using transform */
+    transform: scale(1.6); /* Adjust the value as needed */
+    cursor: pointer;
+}
