@@ -4,10 +4,15 @@ import '../App.css';
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
+import useLocal from '../hooks/useLocal';
 
 function App() {
 
-    const [name, setName] = useState('');
+    // const [name, setName] = useState('');
+
+    //initialize key and initial value, subsequent calls to setName will update the value
+    const [name, setName] = useLocal('name','');
+
     const nameInput = useRef(null);
 
     const [todos, setTodos] = useState([
@@ -138,12 +143,17 @@ function App() {
     }
 
     useEffect(() => {
-        console.log('<<< useEffect FOR [todos]>>>');
+        // console.log('<<< useEffect FOR [todos]>>>');
     }, [todos]);
 
     useEffect(() => {
-        console.log('<<< useEffect FOR [name] >>>');
-        nameInput.current.focus()
+        // console.log('<<< useEffect FOR [name] >>>');
+
+        if (nameInput.current) {
+            nameInput.current.focus()
+        }
+
+        // setName(localStorage.getItem('name') ?? '');
     }, [name]);
 
     useEffect(() => {
@@ -154,25 +164,52 @@ function App() {
        }
     });
 
+    function nameSubmit(event) {
+        event.preventDefault();
+        console.log('nameSubmit()');
+
+        setName(nameInput.current.value);
+        //
+        // localStorage.setItem('name', nameInput.current.value);
+    }
+
+    function clearName() {
+        setName('');
+        localStorage.removeItem('name');
+    }
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
+                <h2>Todo App</h2>
+                <hr/>
+                {!name && (
                 <div className="name-container">
-                    <h2>What is your name?</h2>
-                    <button onClick={()=> console.log(nameInput)}>getref</button>
-                    <form action="#">
+                    <h5>What is your name?</h5>
+                    {/*<button onClick={()=> console.log(nameInput)}>getref</button>*/}
+                    <form onSubmit={nameSubmit}>
                         <input
                             ref={nameInput}
                             type="text"
                             className="todo-input todo-name-input"
                             placeholder="Your name"
-                            value={name}
-                            onChange={(event) => setName(event.target.value)}
+                            // onChange={(event) => setName(event.target.value)}
                         />
                     </form>
-                    {name && <p className="name-label">Hello, {name}</p>}
+
                 </div>
-                <h2>Todo App</h2>
+                )}
+                <div className="name-container">
+                    {name && (
+                        <>
+                            <p className="name-label">Hello, {name}</p>
+                            <button onClick={clearName}>Clear Name</button>
+                        </>
+                    )}
+
+
+                </div>
+
                 <TodoForm addTodo={addTodo} />
 
                 {/*{todos.length === 0 ?  : (*/}

@@ -43,7 +43,8 @@ h2 {
 }
 
 .todo-list {
-    margin-top: 32px;
+    margin: 50px 32px;
+
 }
 
 .todo-item-container {
@@ -155,9 +156,34 @@ h2 {
 }
 .name-container {
     margin-bottom: 20px;
+    margin-top: 20px;
 }
 .name-label {
     font-size: 20px;
     font-weight: bold;
     margin-top: 10px;
+}
+.toggles-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    gap: 10px;
+}
+.bg-green {
+    background-color: #10B981;
+    color: white;
+    font-weight: bold;
+}
+.bg-green:hover {
+    background-color: #047857;
+    border-color: #047857;
+}
+.bg-red {
+    background-color: #EF4444;
+    color: white;
+    font-weight: bold;
+}
+.bg-red:hover {
+    background-color: #991B1B;
+    border-color: #991B1B;
 }

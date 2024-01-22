@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react';
 import ItemsRemaining from './ItemsRemaining';
+import useToggle from '../hooks/useToggle';
 
 export default function TodoList({
                                      todos,
@@ -14,6 +15,10 @@ export default function TodoList({
 }) {
 
     const [filter, setFilter] = React.useState('all');
+
+    //Custom hook useToggle in src/hooks folder
+    const [oneVisible, setOneVisible] = useToggle();
+    const [twoVisible, setTwoVisible] = useToggle(false);
 
     useEffect(() => {
         console.log('filter: ' + filter);
@@ -65,13 +70,15 @@ export default function TodoList({
                     </li>
                 ))}
             </ul>
-            <div className="check-all-container">
-                <div>
-                    <div className="button" onClick={completeAll}>Check All</div>
+            {oneVisible && (
+                <div className="check-all-container">
+                    <div>
+                        <div className="button" onClick={completeAll}>Check All</div>
+                    </div>
+                    <ItemsRemaining remaining={remaining} />
                 </div>
-
-                <ItemsRemaining remaining={remaining} />
-            </div>
+            )}
+            {twoVisible && (
             <div className="other-buttons-container">
                 <div>
                     <button className={`button filter-button ${filter === 'all' && 'filter-button-active'}`} onClick={() => setFilter('all')}>All</button>
@@ -81,6 +88,13 @@ export default function TodoList({
                 <div>
                     <button className="button" onClick={clearCompleted}>Clear completed</button>
                 </div>
+            </div>
+            )}
+            <div className="toggles-container">
+                <button className={`button ${oneVisible ? 'bg-green' : 'bg-red'}`} onClick={setOneVisible}>Features One Toggle</button>
+                {/*<button className={`button ${oneVisible ? 'bg-green' : 'bg-red'}`} onClick={() => setOneVisible(prevOneVisible => !prevOneVisible)}>Features One Toggle</button>*/}
+                <button className={`button ${twoVisible ? 'bg-green' : 'bg-red'}`} onClick={setTwoVisible}>Features Two Toggle</button>
+                {/*<button className={`button ${twoVisible ? 'bg-green' : 'bg-red'}`} onClick={() => setTwoVisible(prevTwoVisible => !prevTwoVisible)}>Features Two Toggle</button>*/}
             </div>
         </> //end of fragment, elements must be wrapped in a single parent
     );
