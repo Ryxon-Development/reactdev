@@ -1,11 +1,29 @@
-import React from 'react';
+import React, {useEffect} from 'react';
+import ItemsRemaining from './ItemsRemaining';
 
-export default function TodoList({ todos, deleteTodo, completeTodo, markAsEditing, updateTodo }) {
+export default function TodoList({
+                                     todos,
+                                     deleteTodo,
+                                     completeTodo,
+                                     markAsEditing,
+                                     updateTodo,
+                                     remaining,
+                                     clearCompleted,
+                                     completeAll,
+                                     todosFiltered
+}) {
+
+    const [filter, setFilter] = React.useState('all');
+
+    useEffect(() => {
+        console.log('filter: ' + filter);
+    }, [filter]);
+
     return (
         //start of fragment, elements must be wrapped in a single parent
         <>
             <ul className="todo-list">
-                {todos.map((todo, index) => (
+                {todosFiltered(filter).map((todo, index) => (
                     <li key={todo.id} className="todo-item-container">
                         <div className="todo-item">
                             <input checked={todo.isComplete} type="checkbox" onChange={() => completeTodo(todo.id)} />
@@ -49,19 +67,19 @@ export default function TodoList({ todos, deleteTodo, completeTodo, markAsEditin
             </ul>
             <div className="check-all-container">
                 <div>
-                    <div className="button">Check All</div>
+                    <div className="button" onClick={completeAll}>Check All</div>
                 </div>
 
-                <span>3 items remaining</span>
+                <ItemsRemaining remaining={remaining} />
             </div>
             <div className="other-buttons-container">
                 <div>
-                    <button className="button filter-button filter-button-active">All</button>
-                    <button className="button filter-button">Active</button>
-                    <button className="button filter-button">Completed</button>
+                    <button className={`button filter-button ${filter === 'all' && 'filter-button-active'}`} onClick={() => setFilter('all')}>All</button>
+                    <button className={`button filter-button ${filter === 'active' && 'filter-button-active'}`} onClick={() => setFilter('active')}>Active</button>
+                    <button className={`button filter-button ${filter === 'completed' && 'filter-button-active'}`} onClick={() => setFilter('completed')}>Completed</button>
                 </div>
                 <div>
-                    <button className="button">Clear completed</button>
+                    <button className="button" onClick={clearCompleted}>Clear completed</button>
                 </div>
             </div>
         </> //end of fragment, elements must be wrapped in a single parent
