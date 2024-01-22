@@ -201,10 +201,10 @@ function App() {
                 )}
                 <div className="name-container">
                     {name && (
-                        <>
+                        <div className='flex-justify'>
                             <p className="name-label">Hello, {name}</p>
                             <button onClick={clearName}>Clear Name</button>
-                        </>
+                        </div>
                     )}
 
 
