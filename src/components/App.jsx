@@ -15,29 +15,31 @@ function App() {
 
     const nameInput = useRef(null);
 
-    const [todos, setTodos] = useState([
-        {
-            id: 1,
-            title: 'Finish React Series',
-            isComplete: false,
-            isEditing: false,
-        },
-        {
-            id: 2,
-            title: 'Go to Grocery',
-            isComplete: true,
-            isEditing: false,
-        },
-        {
-            id: 3,
-            title: 'Do other thing',
-            isComplete: false,
-            isEditing: false,
-        },
-    ]);
+    //Todos are now saved in local storage
+    const [todos, setTodos] = useLocal('todos', []);
+    // const [todos, setTodos] = useState([
+    //     {
+    //         id: 1,
+    //         title: 'Finish React Series',
+    //         isComplete: false,
+    //         isEditing: false,
+    //     },
+    //     {
+    //         id: 2,
+    //         title: 'Go to Grocery',
+    //         isComplete: true,
+    //         isEditing: false,
+    //     },
+    //     {
+    //         id: 3,
+    //         title: 'Do other thing',
+    //         isComplete: false,
+    //         isEditing: false,
+    //     },
+    // ]);
 
     // const [todoInput, setTodoInput] = useState('');
-    const [idForTodo, setIdForTodo] = useState(4);
+    const [idForTodo, setIdForTodo] = useLocal('idForTodo', 1);
     function addTodo(todoInput) {
         setTodos([
             ...todos,

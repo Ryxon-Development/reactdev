@@ -7,11 +7,11 @@ function useLocal(key, initialValue) {
             console.log('local item exits!!');
         }
 
-        return item ? item : initialValue;
+        return item ? JSON.parse(item) : initialValue;
     })
 
     useEffect(() => {
-        localStorage.setItem(key, value);
+        localStorage.setItem(key, JSON.stringify(value));
     }, [key, value]);
 
     // Return a cleanup function
