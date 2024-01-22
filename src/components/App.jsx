@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import '../reset.css';
 import '../App.css';
 import NoTodos from './NoTodos';
@@ -6,6 +6,10 @@ import TodoForm from './TodoForm';
 import TodoList from './TodoList';
 
 function App() {
+
+    const [name, setName] = useState('');
+    const nameInput = useRef(null);
+
     const [todos, setTodos] = useState([
         {
             id: 1,
@@ -99,9 +103,13 @@ function App() {
         );
     }
 
-    function remaining() {
+    function remainingCalc() {
+        console.log('remainingCalc');
         return todos.filter((todo) => !todo.isComplete).length;
     }
+
+    //Cache the result of a function, only if the dependencies have changed [todos]
+    const remaining = useMemo(remainingCalc, [todos]);
 
     function clearCompleted() {
         setTodos(todos.filter((todo) => !todo.isComplete));
@@ -129,9 +137,41 @@ function App() {
         }
     }
 
+    useEffect(() => {
+        console.log('<<< useEffect FOR [todos]>>>');
+    }, [todos]);
+
+    useEffect(() => {
+        console.log('<<< useEffect FOR [name] >>>');
+        nameInput.current.focus()
+    }, [name]);
+
+    useEffect(() => {
+       console.log('>>> useEffect Running');
+
+       return () => {
+          console.log('<<< useEffect Cleanup');
+       }
+    });
+
     return (
         <div className="todo-app-container">
             <div className="todo-app">
+                <div className="name-container">
+                    <h2>What is your name?</h2>
+                    <button onClick={()=> console.log(nameInput)}>getref</button>
+                    <form action="#">
+                        <input
+                            ref={nameInput}
+                            type="text"
+                            className="todo-input todo-name-input"
+                            placeholder="Your name"
+                            value={name}
+                            onChange={(event) => setName(event.target.value)}
+                        />
+                    </form>
+                    {name && <p className="name-label">Hello, {name}</p>}
+                </div>
                 <h2>Todo App</h2>
                 <TodoForm addTodo={addTodo} />
 

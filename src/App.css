@@ -153,3 +153,11 @@ h2 {
     transform: scale(1.6); /* Adjust the value as needed */
     cursor: pointer;
 }
+.name-container {
+    margin-bottom: 20px;
+}
+.name-label {
+    font-size: 20px;
+    font-weight: bold;
+    margin-top: 10px;
+}
