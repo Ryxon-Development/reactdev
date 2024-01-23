@@ -4,7 +4,7 @@ function useLocal(key, initialValue) {
         const item = localStorage.getItem(key);
 
         if(item) {
-            console.log('local item exits!!');
+            // console.log('local item exits!!');
         }
 
         return item ? JSON.parse(item) : initialValue;

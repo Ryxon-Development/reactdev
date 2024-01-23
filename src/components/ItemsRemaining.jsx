@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useMemo } from 'react';
+import {TodosContext} from "../context/TodosContext";
+import {useContext} from "react";
 
-export default function ItemsRemaining(props) {
+export default function ItemsRemaining() {
+
+    const {todos} = useContext(TodosContext);
+
+    function remainingCalc() {
+        // console.log('remainingCalc');
+        return todos.filter((todo) => !todo.isComplete).length;
+    }
+
+    //Cache the result of a function, only if the dependencies have changed [todos]
+    const remaining = useMemo(remainingCalc, [todos]);
+
     return (
-        <span>{props.remaining} items remaining</span>
+        <span>{remaining} items remaining</span>
     )
 }
 
