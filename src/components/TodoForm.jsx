@@ -26,7 +26,7 @@ export default function TodoForm() {
                 focusTodoInput();
             }
         }
-    }, [name]);
+    }, [name, focusTodoInput]);
 
     function nameSubmit(event) {
         event.preventDefault();

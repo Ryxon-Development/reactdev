@@ -3,6 +3,7 @@ import useToggle from '../hooks/useToggle';
 import ClearCompleted from "./ClearCompleted";
 import {TodosContext} from "../context/TodosContext";
 import CompleteAll from "./CompleteAll";
+import {CSSTransition, TransitionGroup } from "react-transition-group";
 
 export default function TodoList() {
     const {todos, filter, setTodos} = useContext(TodosContext);
@@ -23,13 +24,11 @@ export default function TodoList() {
                 return todos;
         }
     }
-
     function deleteTodo(id) {
         console.log('delete todo with id: ' + id);
         //delete todo with id
         setTodos(todos.filter((todo) => todo.id !== id));
     }
-
     function completeTodo(id) {
         console.log('complete todo with id: ' + id);
 
@@ -43,7 +42,6 @@ export default function TodoList() {
             }),
         );
     }
-
     function markAsEditing(id) {
         console.log('complete todo with id: ' + id);
 
@@ -57,9 +55,6 @@ export default function TodoList() {
             }),
         );
     }
-
-    // const [singleTodo, setSingleTodo] = useState({});
-
     function updateTodo(event, id) {
         console.log('Update todo with id: ' + id);
 
@@ -80,13 +75,13 @@ export default function TodoList() {
         );
     }
 
-
     return (
         //start of fragment, elements must be wrapped in a single parent
         <>
-            <ul className="todo-list">
+            <TransitionGroup component="ul" className="todo-list">
                 {todosFiltered().map((todo, index) => (
-                    <li key={todo.id} className="todo-item-container">
+                    <CSSTransition key={todo.id} timeout={300} classNames="slide-horizontal">
+                        <li className="todo-item-container">
                         <div className="todo-item">
                             <input checked={todo.isComplete} type="checkbox" onChange={() => completeTodo(todo.id)} />
 
@@ -125,14 +120,35 @@ export default function TodoList() {
                             </svg>
                         </button>
                     </li>
+                    </CSSTransition>
                 ))}
-            </ul>
-            {oneVisible && (
+            </TransitionGroup>
+
+            <CSSTransition
+                in={oneVisible}
+                timeout={300}
+                classNames="slide-vertical"
+                unmountOnExit
+            >
                 <CompleteAll />
-            )}
-            {twoVisible && (
+            </CSSTransition>
+
+            <CSSTransition
+                in={twoVisible}
+                timeout={300}
+                classNames="slide-vertical"
+                unmountOnExit
+            >
                 <ClearCompleted />
-            )}
+            </CSSTransition>
+
+            {/*{oneVisible && (*/}
+            {/*    <CompleteAll />*/}
+            {/*)}*/}
+            {/*{twoVisible && (*/}
+            {/*    <ClearCompleted />*/}
+            {/*)}*/}
+
             <div className="toggles-container">
                 <button className={`button ${oneVisible ? 'bg-green' : 'bg-red'}`} onClick={setOneVisible}>Features One Toggle</button>
                 {/*<button className={`button ${oneVisible ? 'bg-green' : 'bg-red'}`} onClick={() => setOneVisible(prevOneVisible => !prevOneVisible)}>Features One Toggle</button>*/}
