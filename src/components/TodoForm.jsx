@@ -21,6 +21,10 @@ export default function TodoForm() {
         }
         return () => {
             console.log('cleanup nameInput');
+            if(name) {
+                console.log(`Hello ${name}!`);
+                focusTodoInput();
+            }
         }
     }, [name]);
 
