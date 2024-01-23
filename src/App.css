@@ -16,8 +16,13 @@ body {
     padding: 10px;
     background: #f3f4f6;
 }
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 0 20px;
+}
 
-.todo-app {
+.todo-app, .page-block {
     margin: auto;
     margin-top: 30px;
     padding: 2rem;
@@ -238,4 +243,39 @@ h2 {
     opacity: 0;
     transform: translateX(-10px);
     transition: all 300ms;
+}
+nav {
+    background-color: #1F2937;
+    color: white;
+    padding: 10px;
+    display: flex;
+    justify-content: center; /* Center the content horizontally */
+    align-items: center;
+    width: 100%; /* Take full width of the container */
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+}
+
+nav li {
+    margin: 0 10px;
+}
+
+nav a {
+    color: white;
+    text-decoration: none;
+}
+
+.active {
+    color: #14f0aa;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+/* Add box-sizing property */
+* {
+    box-sizing: border-box;
 }

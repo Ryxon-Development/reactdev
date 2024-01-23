@@ -44,7 +44,7 @@ function App() {
             todoInputRef,
             focusTodoInput
         }}>
-        <div className="todo-app-container">
+
             <div className="todo-app">
                 <h2>Todo App</h2>
                 <hr/>
@@ -57,7 +57,6 @@ function App() {
                     </CSSTransition>
                 </SwitchTransition>
             </div>
-        </div>
         </TodosContext.Provider>
     );
 }
