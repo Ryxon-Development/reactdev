@@ -199,8 +199,8 @@ h2 {
 }
 
 /* Optional: Add some styling to the button */
-.flex-justify button {
-    padding: 8px 12px;
+.flex-justify button, .mybutton {
+    padding: 6px 14px;
     background-color: #007bff;
     color: #fff;
     border: none;
