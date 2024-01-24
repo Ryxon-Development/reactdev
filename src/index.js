@@ -3,6 +3,14 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Root from './components/Root';
 import reportWebVitals from './reportWebVitals';
+import {
+    // useQuery,
+    // useMutation,
+    // useQueryClient,
+    QueryClient,
+    QueryClientProvider,
+} from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
 
 const rootElement = document.getElementById('root');
 
@@ -11,8 +19,11 @@ if (rootElement) {
 
     root.render(
         <React.StrictMode>
-            <Root />
-        </React.StrictMode>,
+            <QueryClientProvider client={new QueryClient()}>
+                <Root />
+                <ReactQueryDevtools />
+            </QueryClientProvider>
+         </React.StrictMode>,
     );
 
     reportWebVitals();

@@ -1,8 +1,27 @@
-import useFetch from "../hooks/useFetch";
+// import useFetch from "../hooks/useFetch";
+import { useQuery } from "react-query";
 
 export default function Reddit() {
 
-    const { data: posts, isLoading, error } = useFetch("https://www.reddit.com/r/reactjs.json");
+    //using useFetch custom hook to fetch data from reddit api
+    // const { data: posts, isLoading, error } = useFetch("https://www.reddit.com/r/reactjs.json");
+
+    //using react-query to fetch data from reddit api
+    const {
+        data: posts,
+        isLoading,
+        // isError,
+        error,
+        // isSuccess
+    } = useQuery("posts", fetchPosts, {
+        retry: false,
+        staleTime: 6000,
+    });
+
+    function fetchPosts() {
+        return fetch("https://www.reddit.com/r/reactjs.json")
+            .then(res => res.json());
+    }
 
     return (
         <div>

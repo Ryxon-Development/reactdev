@@ -279,3 +279,8 @@ nav a {
 * {
     box-sizing: border-box;
 }
+button.disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+
+}

@@ -1,38 +1,46 @@
-import { useState, useEffect } from "react";
+import React from "react";
+import { useQuery } from "react-query";
 
-export default function Reddit() {
-    const [joke, setJoke] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [triggerFetch, setTriggerFetch] = useState(false);
+export default function Joke() {
+    //using react-query to fetch data from reddit api
+    const {
+        data: joke,
+        isLoading,
+        isError,
+        error,
+        isSuccess,
+        refetch
 
-    useEffect(() => {
-        fetch("https://official-joke-api.appspot.com/jokes/random")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoading(false);
-                    console.log(result);
-                    setJoke(result);
-                }
-            )
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                setError(error);
+    } = useQuery(
+        "joke",
+        fetchJoke,
+        {
+            staleTime: 6000,
+            refetchOnWindowFocus: false,
+            retry: false,
+        },
+    );
+
+    function fetchJoke() {
+        return fetch("https://official-joke-api.appspot.com/jokes/random")
+            .then((res) => {
+                return res.json();
             });
-    }, [triggerFetch]);
+    }
 
     function newJoke() {
-        setIsLoading(true);
-        setTriggerFetch(!triggerFetch);
+        refetch();
+
+        // console.log(joke);
     }
 
     return (
         <div>
             {isLoading && <p>Loading...</p>}
-            {error && <p>{error.message}</p>}
-            {!isLoading && (
+            {isError && <p>ERROR: {error.message}</p>}
+            {joke && joke.type === 'error' && <p>ERROR: {joke.message}</p>}
+
+            {isSuccess && (
                 <div>
                     <p className="mt-4 bg-green-400">{joke.setup}</p>
                     <p className="font-bold mt-4 underline">{joke.punchline}</p>
