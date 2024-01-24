@@ -1,6 +1,8 @@
 import {useEffect, useRef, useState} from 'react';
 import '../reset.css';
+import '../tailwind.css';
 import '../App.css';
+
 import NoTodos from './NoTodos';
 import TodoForm from './TodoForm';
 import TodoList from './TodoList';
@@ -17,7 +19,7 @@ function App() {
     const [idForTodo, setIdForTodo] = useLocal('idForTodo', 1);
 
     useEffect(() => {
-       // console.log('>>> useEffect Running');
+       console.log('>>>App.jsx useEffect');
 
        return () => {
           // console.log('<<< useEffect Cleanup');
