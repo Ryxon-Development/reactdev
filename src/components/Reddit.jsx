@@ -1,42 +1,27 @@
-import React, {useState, useEffect} from "react";
+import useFetch from "../hooks/useFetch";
 
 export default function Reddit() {
-    const [posts, setPosts] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [error, setError] = useState(null);
 
-    useEffect(() => {
-        fetch("https://www.reddit.com/r/reactjs.json")
-            .then(res => res.json())
-            .then(
-                (result) => {
-                    setIsLoading(false);
-                    setPosts(result.data.children);
-                    console.log(result.data.children);
-                }
-            )
-            .catch(error => {
-                console.log(error);
-                setIsLoading(false);
-                setError(error);
-            });
-
-    }, []);
+    const { data: posts, isLoading, error } = useFetch("https://www.reddit.com/r/reactjs.json");
 
     return (
         <div>
             <p>Reddit API call</p>
             {isLoading && <p>Loading...</p>}
-            {!isLoading && (
-            <ul>
-                {posts.map(post => (
-                    <li className="my-2.5" key={post.data.id}>
-                        <a className="text-blue-500 underline" href={post.data.url} target="_blank" rel="noreferrer">{post.data.title}</a>
-                    </li>
-                ))}
-            </ul>
+
+            {error ? (
+                <p className="text-red-500 font-bold">ERROR: {error.message}</p>
+            ) : (
+                !isLoading && posts && posts.data && (
+                    <ul>
+                        {posts.data.children.map(post => (
+                            <li className="my-2.5" key={post.data.id}>
+                                <a className="text-blue-500 underline" href={post.data.url} target="_blank" rel="noreferrer">{post.data.title}</a>
+                            </li>
+                        ))}
+                    </ul>
+                )
             )}
-            {error && <p>{error.message}</p>}
         </div>
     )
 }
